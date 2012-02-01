@@ -1,0 +1,16 @@
+{
+    "name": "coffee-authorization"
+  , "version": "0.0.1"
+  , "author": "github@dagnu.de"
+  , "private": true
+  , "dependencies": {
+      "coffee-script": "1.2.x"
+  }
+  , "devDependencies": {
+      "jasmine-node": "1.0.x"
+  }
+  , "scripts": {
+    "test": "cake spec"
+  }
+  , "engine": "node ~> 0.6.x"
+}
