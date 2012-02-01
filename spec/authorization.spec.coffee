@@ -3,9 +3,9 @@ Glossary = require '../src/glossary'
 class User
   constructor: (@login, @roles) ->
 
-admin = new User 'Administrator', ['admin', 'user']
-user = new User 'Editor', ['user']
-guest = new User 'Guest', ['guest']
+admin = new User 'Administrator', [Glossary.ADMIN, Glossary.USER]
+user = new User 'Editor', [Glossary.USER]
+guest = new User 'Guest', [Glossary.GUEST]
 
 describe 'authorization permission handling', ->
 
@@ -43,10 +43,12 @@ describe 'authorization permission handling', ->
   it 'permits admin user all operations', ->
 
     actual = getGlossary admin
+    expect(listAccess actual).toBeTruthy 'admin can list'
+    expect(actual.list().length).toBe 3, 'three terms'
     expect(createAccess actual, term).toBeTruthy 'admin can create'
+    expect(actual.list().length).toBe 4, 'term added'
     expect(deleteAccess actual, 2).toBeTruthy 'admin can delete'
     expect(editAccess actual, 1, term).toBeTruthy 'admin can edit'
-    expect(listAccess actual).toBeTruthy 'admin can list'
 
   it 'permits user a globally list view', ->
 

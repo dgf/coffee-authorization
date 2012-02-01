@@ -29,7 +29,7 @@ spec = (callback) ->
   options = ['spec', '--coffee']
   call './node_modules/jasmine-node/bin/jasmine-node', options, callback
 
-task 'spec', 'run BBD specifications', ->
+task 'spec', 'run specifications', ->
   build (buildStatus) ->
     if buildStatus is 0
       spec (testStatus) ->
