@@ -32,6 +32,7 @@ describe 'authorization permission handling', ->
     {title: 'a third term', desc: 'term term', owner: 'Editor'}
   ]
 
+
   it 'permits guest only the list view', ->
 
     actual = getGlossary guest
@@ -39,6 +40,27 @@ describe 'authorization permission handling', ->
     expect(createAccess actual, term).toBeFalsy 'guest can create'
     expect(editAccess actual, 0, term).toBeFalsy 'guest can edit'
     expect(deleteAccess actual, 0).toBeFalsy 'guest can delete'
+
+
+  it 'permits user a globally list view', ->
+
+    actual = getGlossary user
+    expect(listAccess actual).toBeTruthy 'user can list'
+    # term 0 own by other
+    expect(editAccess actual, 0, term).toBeFalsy 'user can edit'
+    expect(deleteAccess actual, 0).toBeFalsy 'user can delete'
+
+
+  it 'permits user a change of own terms', ->
+
+    actual = getGlossary user
+    expect(createAccess actual, term).toBeTruthy 'user can create'
+
+    lastTerm = actual.terms.length - 1
+    newTerm = title: 'new title', desc: 'new description'
+    expect(editAccess actual, lastTerm, newTerm).toBeTruthy 'user can edit'
+    expect(deleteAccess actual, lastTerm).toBeFalsy 'user can delete'
+
 
   it 'permits admin user all operations', ->
 
@@ -49,20 +71,3 @@ describe 'authorization permission handling', ->
     expect(actual.list().length).toBe 4, 'term added'
     expect(deleteAccess actual, 2).toBeTruthy 'admin can delete'
     expect(editAccess actual, 1, term).toBeTruthy 'admin can edit'
-
-  it 'permits user a globally list view', ->
-
-    actual = getGlossary user
-    expect(listAccess actual).toBeTruthy 'user can list'
-    expect(editAccess actual, 0, term).toBeFalsy 'user can edit'
-    expect(deleteAccess actual, 0).toBeFalsy 'user can delete'
-
-  it 'permits user a change of owned terms', ->
-
-    actual = getGlossary user
-    expect(createAccess actual, term).toBeTruthy 'user can create'
-
-    lastTerm = actual.terms.length - 1
-    newTerm = title: 'new title', desc: 'new description'
-    expect(editAccess actual, lastTerm, newTerm).toBeTruthy 'user can edit'
-    expect(deleteAccess actual, lastTerm).toBeTruthy 'user can delete'

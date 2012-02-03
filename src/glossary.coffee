@@ -18,14 +18,14 @@ class Glossary
     # USER (multiple permit definitions)
     @authorize.role Glossary.USER, (role) ->
       role.permit ['create', 'list'], -> true
-      role.permit ['edit', 'delete'], (user, term) ->
+      role.permit ['edit'], (user, term) ->
         true if term.owner == user.login # check ownership
 
     # ADMIN (multiple role definitions)
     @authorize.role Glossary.ADMIN, (role) ->
-      role.permit ['list', 'delete'], -> true
+      role.permit ['list', 'create', 'edit'], -> true
     @authorize.role Glossary.ADMIN, (role) ->
-      role.permit ['create', 'edit'], -> true
+      role.permit ['delete'], -> true
 
 
   list: -> @terms if @authorize.check @user, 'list'
