@@ -37,7 +37,7 @@ describe 'authorization permission handling', ->
 
     actual = getGlossary guest
     expect(listAccess actual).toBeTruthy 'guest can list'
-    expect(createAccess actual, term).toBeTruthy 'guest can create'
+    expect(createAccess actual, term).toBeFalsy 'guest can create'
     expect(editAccess actual, 0, term).toBeFalsy 'guest can edit'
     expect(deleteAccess actual, 0).toBeFalsy 'guest can delete'
 
