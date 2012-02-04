@@ -26,7 +26,7 @@
                          |           |
             _____________|_         _|_____________
            |  << list >>   |       |               |
-           |    Action     |       |   Condition   |
+           |    Action     |_______|   Condition   |
            |_______________|       |_______________|
 
     e.g. ['list', 'create']   (term) -> user.login == term.owner
